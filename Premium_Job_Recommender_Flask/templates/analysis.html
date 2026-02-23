@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}CareerNavi Pro — Insights{% endblock %}
+
+{% block content %}
+      <div class="navbar">
+        <div class="nav-inner">
+          <a class="brand" href="{{ url_for('home') }}">
+            <div class="logo"><span>J</span></div>
+            <div>CareerNavi <span style="color:var(--primary)">Pro</span></div>
+          </a>
+          <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('companies') }}">Companies</a>
+            <a href="{{ url_for('analysis') }}">Insights</a>
+            <a href="{{ url_for('login') }}">Login</a>
+          </div>
+        </div>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="toast {{ 'danger' if category=='danger' else ('success' if category=='success' else 'info') }}">
+              <div class="t">{{ category|upper }}</div>
+              <div>{{ message }}</div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+
+<div class="container">
+  <div class="card card-pad">
+    <h2 style="margin:0 0 6px 0">Skills Demand Insights</h2>
+    <div class="h-sub">Top skills extracted from the job dataset.</div>
+    <div class="btn-row">
+      <a class="btn ghost" href="{{ url_for('dashboard') }}">Recommend Jobs</a>
+      <a class="btn ghost" href="{{ url_for('companies') }}">Companies</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    {% for s in skill_stats %}
+    <div class="job">
+      <h3>{{ s.skill }}</h3>
+      <div class="meta">Mentions in dataset: {{ s.count }}</div>
+      <div class="tagrow">
+        <div class="tag">In-Demand</div>
+        <div class="tag">Skill</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+      <div class="footer">
+        © 2026 CareerNavi Pro • Premium Flask Recommender • Made for Academic/Project use
+      </div>
+{% endblock %}

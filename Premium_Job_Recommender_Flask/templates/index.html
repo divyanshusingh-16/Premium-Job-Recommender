@@ -1,0 +1,551 @@
+{% extends "base.html" %}
+
+{% block title %}CareerNavi Pro — Home{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== HERO SECTION ===== */
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 28px;
+      margin-top: 60px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .hero-container { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* Enhanced Glass Cards */
+    .glass-card {
+      padding: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      .glass-card { padding: 32px 24px; }
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin: 0 0 20px 0;
+      color: var(--text-main);
+      letter-spacing: -1px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 1100px) {
+      h1 { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 900px) {
+      h1 { font-size: 2.2rem; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.95rem; }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.6rem; }
+    }
+
+    p.subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0 0 20px 0;
+      font-weight: 400;
+    }
+
+    @media (max-width: 900px) {
+      p.subtitle { font-size: 1rem; }
+    }
+
+    @media (max-width: 600px) {
+      p.subtitle { font-size: 0.95rem; }
+    }
+
+    /* ===== ANIMATED GRADIENT TEXT ===== */
+    .gradient-text {
+      background: linear-gradient(
+        90deg,
+        #60a5fa 0%,
+        #a855f7 25%,
+        #ec4899 50%,
+        #f97316 75%,
+        #60a5fa 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
+    }
+
+    /* ===== PILLS & TAGS ===== */
+    .pill-tags-container {
+      margin: 32px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .pill-tag {
+      padding: 9px 18px;
+      background: linear-gradient(135deg, var(--card-bg), rgba(255, 255, 255, 0.05));
+      border: 1.5px solid var(--border-color);
+      border-radius: 50px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 0 20px var(--glow-color);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      cursor: default;
+    }
+
+    .pill-tag:hover {
+      background: var(--card-bg);
+      border-color: var(--primary);
+      box-shadow: 0 0 30px var(--glow-color);
+      transform: translateY(-3px);
+      color: #fff;
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats-list {
+      list-style: none;
+      padding: 0;
+      margin: 28px 0 36px 0;
+    }
+
+    .stats-list li {
+      margin-bottom: 18px;
+      font-size: 15px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .stats-list li:hover {
+      transform: translateX(6px);
+      color: var(--primary);
+    }
+
+    .stats-list li span {
+      font-size: 22px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .glow-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 28px var(--glow-color);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .glow-btn:hover {
+      box-shadow: 0 15px 40px var(--glow-color);
+      transform: translateY(-4px);
+      background: linear-gradient(135deg, var(--primary-hover) 0%, #1e40af 100%);
+    }
+
+    .glow-btn:active {
+      transform: translateY(-2px);
+    }
+
+    /* ===== QUICK STATS CARD ===== */
+    .glass-card:last-child h2 {
+      margin: 0 0 16px 0;
+      font-size: 1.6rem;
+      color: var(--text-main);
+    }
+
+    .glass-card:last-child .btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      margin-top: 80px;
+      padding: 24px 0;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* ===== HOW IT WORKS & TRENDING MATCHES ===== */
+    .how-it-works { margin-top: 28px; }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    @media (max-width: 900px) {
+      .how-grid { grid-template-columns: 1fr; }
+    }
+
+    .how-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .how-step { font-weight: 800; color: var(--text-main); font-size: 15px; display:flex; gap:8px; align-items:center; }
+    .how-desc { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+
+    .trending-section { margin-top: 22px; }
+    .trending-list { display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+
+    .job-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 12px 14px;
+      border-radius: 12px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .job-card:hover { transform: translateY(-6px); box-shadow: 0 22px 60px -20px var(--glow-color); border-color: var(--primary); }
+
+    .job-row { display:flex; align-items:center; gap:12px; }
+    .job-title { font-weight:800; color: var(--text-main); }
+    .company { font-size: 13px; color: var(--text-muted); }
+
+    .match-badge {
+      margin-left:auto;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      color: #061220;
+      font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      box-shadow: 0 8px 30px rgba(6,182,212,0.12);
+      font-size: 12px;
+    }
+
+    .skill-tags { display:flex; gap:8px; flex-wrap:wrap; }
+    .skill-tag { background: rgba(255,255,255,0.03); color: var(--text-muted); padding:6px 8px; border-radius:8px; font-size:12px; font-weight:700; }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container hero-container">
+    
+    <div class="glass-card">
+      <h1>Premium Job Recommendations,<br><span class="gradient-text">Powered by AI Matching</span></h1>
+      
+      <p class="subtitle">Enter your skills and preferences, and get curated jobs with explainable reasons. Built with Flask + smart text similarity ranking.</p>
+      
+      <div class="pill-tags-container">
+        <span class="pill-tag">✨ TF-IDF Similarity</span>
+        <span class="pill-tag">🚀 Skill Match Boost</span>
+        <span class="pill-tag">📊 Smart Ranking</span>
+        <span class="pill-tag">💎 Premium UI</span>
+      </div>
+
+      <div class="btn-row" style="margin-top: 36px;">
+        <a class="glow-btn" href="{{ url_for('dashboard') }}">Get Started</a>
+        <a class="btn ghost" href="{{ url_for('analysis') }}">View Insights</a>
+      </div>
+
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 32px;">
+        🔮 Future roadmap: authentication, resume parsing, salary estimator, feedback loop
+      </div>
+
+      <!-- HOW IT WORKS -->
+      <div class="how-it-works">
+        <h3 style="margin:8px 0 6px 0; color:var(--text-main); font-size:1.05rem;">How It Works</h3>
+        <div class="how-grid">
+          <div class="how-card">
+            <div class="how-step">📄 <span>1. Upload Profile</span></div>
+            <div class="how-desc">Drop your resume or fill in skills — quick and private.</div>
+          </div>
+
+          <div class="how-card">
+            <div class="how-step">🤖 <span>2. Smart AI Matching</span></div>
+            <div class="how-desc">TF-IDF similarity with skill extraction powers ranked matches.</div>
+          </div>
+
+          <div class="how-card">
+            <div class="how-step">🎯 <span>3. Land Your Dream Job</span></div>
+            <div class="how-desc">Personalized suggestions and explainable reasons to apply.</div>
+          </div>
+        </div>
+
+        <!-- TRENDING MATCHES -->
+        <div class="trending-section">
+          <h4 style="margin:12px 0 6px 0; color:var(--text-main); font-size:0.98rem;">Trending Matches</h4>
+          <div class="trending-list">
+            <div class="job-card">
+              <div class="job-row">
+                <div class="job-title">Data Scientist</div>
+                <div class="match-badge">94% Match</div>
+              </div>
+              <div class="company">Acme Analytics</div>
+              <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">Pandas</span></div>
+            </div>
+
+            <div class="job-card">
+              <div class="job-row">
+                <div class="job-title">Machine Learning Engineer</div>
+                <div class="match-badge">91% Match</div>
+              </div>
+              <div class="company">Orbit Labs</div>
+              <div class="skill-tags"><span class="skill-tag">TensorFlow</span><span class="skill-tag">Python</span></div>
+            </div>
+
+            <div class="job-card">
+              <div class="job-row">
+                <div class="job-title">Data Analyst</div>
+                <div class="match-badge">88% Match</div>
+              </div>
+              <div class="company">MarketPulse</div>
+              <div class="skill-tags"><span class="skill-tag">SQL</span><span class="skill-tag">Excel</span><span class="skill-tag">Tableau</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <h2>Market Insights</h2>
+
+      <div class="market-grid">
+        <!-- Top Skills Card -->
+        <div class="market-card skills-card">
+          <div class="market-card-header">
+            <h3>Top 5 In-Demand Skills</h3>
+            <div class="market-sub">Ranked from dataset</div>
+          </div>
+
+          <ol class="skill-list" id="skillList">
+            <li class="skill-item" data-percent="95" title="High demand across data and backend roles">
+              <div class="skill-left"><span class="rank">1</span><span class="skill-name">Python</span></div>
+              <div class="skill-right"><span class="skill-badge">95%</span></div>
+              <div class="progress"><div class="progress-fill" style="width:95%"></div></div>
+            </li>
+
+            <li class="skill-item" data-percent="88" title="Strong demand for database and analytics">
+              <div class="skill-left"><span class="rank">2</span><span class="skill-name">SQL</span></div>
+              <div class="skill-right"><span class="skill-badge">88%</span></div>
+              <div class="progress"><div class="progress-fill" style="width:88%"></div></div>
+            </li>
+
+            <li class="skill-item" data-percent="82" title="Machine learning roles and pipelines">
+              <div class="skill-left"><span class="rank">3</span><span class="skill-name">Machine Learning</span></div>
+              <div class="skill-right"><span class="skill-badge">82%</span></div>
+              <div class="progress"><div class="progress-fill" style="width:82%"></div></div>
+            </li>
+
+            <li class="skill-item" data-percent="76" title="Frontend and UI frameworks">
+              <div class="skill-left"><span class="rank">4</span><span class="skill-name">React</span></div>
+              <div class="skill-right"><span class="skill-badge">76%</span></div>
+              <div class="progress"><div class="progress-fill" style="width:76%"></div></div>
+            </li>
+
+            <li class="skill-item" data-percent="70" title="Cloud infra & services">
+              <div class="skill-left"><span class="rank">5</span><span class="skill-name">AWS</span></div>
+              <div class="skill-right"><span class="skill-badge">70%</span></div>
+              <div class="progress"><div class="progress-fill" style="width:70%"></div></div>
+            </li>
+          </ol>
+
+          <div class="market-footer">Hover a skill to see details.</div>
+        </div>
+
+        <!-- Job Types Card -->
+        <div class="market-card chart-card">
+          <div class="market-card-header">
+            <h3>Job Types Breakdown</h3>
+            <div class="market-sub">Share of job postings</div>
+          </div>
+
+          <div class="chart-area">
+            <canvas id="jobTypesChart" aria-label="Job types breakdown chart"></canvas>
+          </div>
+
+          <div class="chart-legend" id="jobTypesLegend">
+            <!-- Filled by script with percentages -->
+          </div>
+
+          <div class="market-footer">Data from 1000+ active job postings</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="footer">
+      © 2026 CareerNavi Pro • Premium Flask Recommender • Made for Academic & Professional use
+    </div>
+  </div>
+
+  <script>
+    // Initialize Charts with Theme-Aware Colors
+    document.addEventListener('DOMContentLoaded', function() {
+      const isDarkMode = !document.documentElement.getAttribute('data-theme') || document.documentElement.getAttribute('data-theme') === 'dark';
+      
+      // Chart colors that adapt to theme
+      const primaryColor = isDarkMode ? '#3b82f6' : '#2563eb';
+      const accentColor = isDarkMode ? '#a855f7' : '#9333ea';
+      const textColor = isDarkMode ? '#94a3b8' : '#64748b';
+      const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+
+      // Skills Bar Chart
+      const skillsCtx = document.getElementById('skillsChart')?.getContext('2d');
+      if (skillsCtx) {
+        new Chart(skillsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Python', 'React', 'SQL', 'AWS', 'Java'],
+            datasets: [{
+              label: 'Job Postings',
+              data: [85, 70, 65, 50, 40],
+              backgroundColor: [primaryColor, accentColor, '#ec4899', '#f97316', '#14b8a6'],
+              borderRadius: 8,
+              borderSkipped: false,
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: 1,
+            plugins: {
+              legend: { display: false },
+              tooltip: { backgroundColor: 'rgba(0, 0, 0, 0.8)', titleFont: { size: 13 } }
+            },
+            layout: {
+              padding: { top: 15, bottom: 15, left: 70, right: 15 }
+            },
+            scales: {
+              x: {
+                grid: { color: gridColor, drawBorder: false },
+                ticks: { 
+                  color: textColor, 
+                  font: { size: 11 }, 
+                  padding: 15,
+                  maxRotation: 0,
+                  autoSkip: true,
+                  maxTicksLimit: 6
+                },
+                beginAtZero: true,
+                min: 0,
+                max: 100
+              },
+              y: {
+                grid: { display: false, drawBorder: false },
+                ticks: { 
+                  color: textColor, 
+                  font: { weight: 600, size: 12 }, 
+                  padding: 15
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Job Types Doughnut Chart (custom legend + hover highlighting)
+      const jobTypesCtx = document.getElementById('jobTypesChart')?.getContext('2d');
+      if (jobTypesCtx) {
+        const jobData = [60, 20, 20];
+        const jobLabels = ['Full-Time', 'Contract', 'Internship'];
+        const jobColors = ['#2563eb', '#8b5cf6', '#10b981'];
+
+        const jobChart = new Chart(jobTypesCtx, {
+          type: 'doughnut',
+          data: {
+            labels: jobLabels,
+            datasets: [{
+              data: jobData,
+              backgroundColor: jobColors,
+              borderColor: isDarkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(255, 255, 255, 0.9)',
+              borderWidth: 2,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: 1,
+            cutout: '68%',
+            plugins: {
+              legend: { display: false },
+              tooltip: { backgroundColor: 'rgba(0, 0, 0, 0.8)', titleFont: { size: 13 } }
+            },
+            animation: { duration: 520 }
+          }
+        });
+
+        // Build custom legend with percentages
+        const legendEl = document.getElementById('jobTypesLegend');
+        legendEl.innerHTML = '';
+        const total = jobData.reduce((s, v) => s + v, 0) || 1;
+        jobData.forEach((val, i) => {
+          const percent = Math.round((val / total) * 100);
+          const entry = document.createElement('div');
+          entry.className = 'legend-entry';
+          entry.innerHTML = `<span class="legend-dot" style="background:${jobColors[i]}"></span><span>${jobLabels[i]}</span><span style="margin-left:8px; font-weight:700; color: var(--text-main);">${percent}%</span>`;
+
+          // Hover interactions to highlight chart segment
+          entry.addEventListener('mouseenter', () => {
+            jobChart.setActiveElements([{datasetIndex:0, index:i}]);
+            jobChart.update();
+          });
+          entry.addEventListener('mouseleave', () => {
+            jobChart.setActiveElements([]);
+            jobChart.update();
+          });
+
+          legendEl.appendChild(entry);
+        });
+      }
+
+      // Listen for theme changes and reinitialize charts
+      window.addEventListener('themeChanged', function() {
+        location.reload();
+      });
+    });
+  </script>
+{% endblock %}

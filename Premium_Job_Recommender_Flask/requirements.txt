@@ -1,0 +1,12 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+pandas
+scikit-learn
+numpy
+python-docx
+PyPDF2
+Werkzeug
+pdfplumber
+spacy
+# Note: download the spaCy model after installing: python -m spacy download en_core_web_sm
